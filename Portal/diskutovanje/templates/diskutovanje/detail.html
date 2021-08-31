@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalji</title>
+</head>
+<body>
+    <div>{{ diskusije }}</div>
+    <div>naziv diskusije:&nbsp;&nbsp;&nbsp;&nbsp;{{ diskusije.naziv }}</div>
+    <div>datum diskusije:&nbsp;&nbsp;&nbsp;{{ diskusije.datum }}</div>
+    <ul>
+    {% for stavka in diskusije.stavka_set.all %}
+        <li>tekst diskusije:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ stavka.tekst }}</li>
+        <li>kategorija diskusije:&nbsp;&nbsp;&nbsp;{{ stavka.kategorija }}</li>
+        <li>autor diskusije:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ stavka.autor }}</li>
+        <li>vidljivost diskusije:&nbsp;&nbsp;&nbsp;{{ stavka.vidljivost }}</li>
+        <li>**** **** **** **** ****  KRAJ JEDNE DISKUSIJE **** **** **** **** **** </li>
+        <br>
+
+    {% endfor %}
+    </ul>
+</body>
+</html>
