@@ -11,5 +11,5 @@ proveriti kardinalnosti
 instalirati mysqlclient
 
 ## Y
-uradjena Registracija, fale samo  dodatni podaci za volontera i da se mesta, ulica i drzavljansto upisuju preko sifarnika
+uradjena Registracija, fale samo  dodatni podaci za volontera i da se mesta, ulica i drzavljansto upisuju preko sifarnika i editovanje profila.
 Diskusije nisu do kraja odradjene - dodavanje komentara
