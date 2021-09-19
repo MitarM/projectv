@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container card">
+    <h1>Добродошли!</h1>
+    <div class="card-body">
+
+    </div>
+</div>
+{% if user.organizacija %}
+<div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+    {% for organizacija in organizacije %}
+    <div class="card mx-auto mt-2 ">
+    <h4 id="scrollspyHeading1">{{ organizacija.naziv }}, ПИБ: {{ organizacija.pib }}</h4>
+    <p>
+        Делатност: {{ organizacija.delatnost }}
+    </p>
+    <p>
+        Опис: {{ organizacija.opis }}
+    </p>
+    <p>{{ organizacija.sediste }}, {{ organizacija.ulica }}</p>
+    <p>{{ organizacija.telefon }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% elif user.volonter %}
+<div class="row">
+    <div class="col">
+        {% if user.volonter.slika %}
+            <img src="{{ user.volonter.slika.url }}" height="200px" />
+<!--        {% else %}-->
+<!--            <img src="/media/noimage.jpg" height="200px" />-->
+        {% endif %}
+    </div>
+</div>
+{% else %}
+    <p>Нема ништа</p>
+{% endif %}
+
+{% for diskusija in diskusije %}
+<div class="card mx-auto mt-2 ">
+    <h4><a href="{% url 'forum:diskusija' diskusija.id %}">{{ diskusija.naziv }}</a> {{ diskusija.autor}}</h4>
+
+    <p>
+        {{ diskusija.tekst }}
+    </p>
+    <p>
+        Категорија: {{ diskusija.kategorija }}
+    </p>
+</div>
+{% endfor %}
+
+{% endblock %}
