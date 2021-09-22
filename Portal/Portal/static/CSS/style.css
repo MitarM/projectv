@@ -1,0 +1,101 @@
+body {
+	margin: 0px;
+	font-family: serif;
+	background-color: blanchedalmond;
+}
+
+.header {
+	padding: 30px;
+	background-color: #fd6a6a;
+	background-size: cover;
+	color: rgb(37, 35, 34);
+	text-align: center;
+	transition: background-color 4s ease;
+	
+}
+h1 {
+	font-family: fantasy;
+	font-size: 60px;
+	transform:skew(-20deg,0);
+	transition: background-color 4s ease;
+}
+h1:hover{
+	background-color: rgb(175, 6, 6);
+	color: white;
+	
+}
+
+h3:hover{
+	border-style: groove;
+}
+
+h4 {
+	font-family: cursive;
+}
+
+.navigation {
+	overflow: hidden;
+	background-color: #5291e2;
+	font-family: lucida console;
+	transition: background-color 4s ease;
+}
+.navigation a {
+	display: block;
+	float: left;
+	padding: 20px;
+	color: rgb(243, 226, 152);
+	text-decoration: none;
+}
+.navigation a:hover {
+	transform: scale(1.28);
+	background-color: rgb(241, 165, 65);
+}
+#right {
+	float: right;
+}
+
+* {
+	box-sizing: border-box;
+}
+.column {
+	float: left;
+	padding: 20px;
+}
+.side {
+	width: 20%;
+}
+.main {
+	width: 60%;
+}
+p {
+	text-align: justify;
+}
+.main p {
+	text-indent: 50px;
+}
+
+img {
+	width: 100%;
+	margin-bottom: 15px;
+	border: 2px solid crimson;
+	
+}
+
+img:hover{
+	transform: scale(1.1);
+}
+
+.content::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.footer {
+	background-color: #fd6a6a;
+	padding: 10px;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	font-family: cursive;
+}

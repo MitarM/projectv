@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% load static %}
+        {% block title %}
+        Početna
+        {% endblock %}
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+
+
+<div class="header">
+    <h1>Portal za volontiranje
+    </h1>
+</div>
+<nav class="navbar navbar-dark bg-dark px-3">
+    <a class="navbar-brand" href="{% url 'index' %}">Индекс</a>
+    <a class="navbar-brand" href="{% url 'index' %}">
+        {% if user.volonter %}
+        {{ user.first_name }} {{ user.last_name }}
+        {% elif user.organizacija %}
+        {{ user.organizacija.naziv }}
+        {% endif %}
+    </a>
+        {% if user.is_authenticated %}
+        <span>
+                <a class="nav-link" aria-current="page" href="{% url 'logout' %}"> Одјави се</a>
+            </span>
+        {% else %}
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'login' %}">Улогуј се</a>
+        </li>
+        <li class="nav-item inline dropdown mr-2">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Региструј
+                се</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'register' %}">Као волонтер</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item user btn btn-info" href="{% url 'org_register' %}">Као организација</a></li>
+            </ul>
+        </li>
+    {% endif %}
+</nav>
+<div class="content">
+    <div class="column side">
+        <h3>Prava i obaveze</h3>
+        <p>Ako se neko i dalje pita ko volontira i zašto troši svoje slobodno vreme, odgovor bi mogao da se sažme u
+            jednu račenicu: želi da pomogne i srećan je zbog toga. Srbija ima <a
+                    href="https://www.paragraf.rs/propisi/zakon_o_volontiranju.html">Zakon</a> o volontiranju u kojem su
+            striktno i precizno navedena prava i obaveze volontera.
+            <br>Zakon je precizan i u kojim situacijama je volontiranje zabranjeno - to su poslovi opasni za život i
+            zdravlje ili oni koji se obavljaju u uslovima opasnim za život i zdravlje.
+        </p>
+    </div>
+    <div class="column main">
+        {% block body %}
+
+        {% endblock %}
+        <h3>Šta je volonterski rad i zašto volontirati?</h3>
+        <p>
+            Kako bismo došli do odgovora na pitanje: “Zašto volontirati?”, važno je da prvo predstavimo šta je ono što
+            se podrazumeva pod sintagmom “volonterski rad”. Izraz volontiranje dolazi nam iz klasičnog jezika –
+            latinskog. Svoj koren termin pronalazi u lat. voluntas (lični izbor, slobodna volja).
+            Sada kada znamo da volontiranje znači izraz slobodne volje, vreme je da saznamo šta je to volonterski rad.
+            Volonterski rad je angažovanje pojedinca ili grupe ljudi, na osnovu ličnog izbora i dobrovoljnosti, da
+            pružaju usluge ili obavljaju aktivnosti od opšteg interesa, za opšte dobro ili dobro drugih ljudi.
+            Volonterski rad ne podrazumeva novčanu, niti bilo kakav drugi tip naknade. Postoji Zakon o volontiranju koji
+            bliže određuje pravnu perspektivu volontiranja. Volonterski rad se obično obavlja u humanitarnim,
+            nevladinim, verskim i socijalnim organizacijama.
+        </p>
+        <h3>Značaj volontiranja</h3>
+        <p>
+            Prednosti volontiranja zaista su brojne, a mane koje neki u njemu vide svode se samo na jednu – nedostatak
+            naknade. Ipak, da li naknada može biti samo novčana? Puno je stvari koje se dobijaju volonterskim radom, a
+            evo samo nekih od njih:
+            Pozitivno utiče na karijeru, stvaranje radne navike, saznavanje novih stvari, sticanje iskustva...
+        </p>
+    </div>
+    <div class="column side">
+        <h3>Mesto za Vaš baner:</h3>
+        <a href="https://rs.jooble.org/posao-volonter"><img src="{% static 'Slike/Slika1.jpg' %}" alt=""></a>
+        <a href="https://iss.rs/sr_Latn/iss-posts-and-add-for-volunteers_p1008.html"><img
+                src="{% static 'Slike/Slika2.jpg' %}"></a>
+        <a href="https://educons.edu.rs/poziv-za-volontiranje-na-medjunarodnoj-studentskoj-nedelji-u-beogradu/"><img
+                src="{% static 'Slike/Slika3.jpg' %}"></a>
+    </div>
+</div>
+<h4>
+    <center>Pratite nas na našim društvenim mrežama: <a
+            href="https://www.facebook.com/Escape-Room-Vr%C5%A1ac-422596161261484">facebook</a> i <a
+            href="https://www.instagram.com/escape_room_vrsac/">instagram</a></center>
+</h4>
+<div class="footer">© 2021 PzV. Sva prava zadržana.</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+        integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+        crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</body>
+</html>

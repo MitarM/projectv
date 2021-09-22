@@ -1,0 +1,26 @@
+{% extends "Portal_Za_Volontiranje.html" %}
+{% block title %}
+{{ oglasi.naslov }}
+{% endblock %}
+{% block body %}
+<table class="table">
+    <tbody>
+    <div class="border border-3 border-info">
+        <span>{{ oglasi.tekst }}
+        </span>
+    </div>
+    <div>
+        <span class="border border-3 border-success">Datum postavljanja oglasa: {{oglasi.datum}}
+        </span>
+    </div>
+     <div>
+         <span class="border border-3 border-danger">Datum isteka oglasa: {{oglasi.datum_isteka_oglasa }}
+        </span>
+     </div>
+    <div>
+        <span class="border border-3 border-danger"> Autor oglasa: {{ oglasi.autor }}
+        </span>
+    </div>
+    </tbody>
+</table>
+{% endblock %}

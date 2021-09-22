@@ -1,0 +1,80 @@
+{% extends "Portal_Za_Volontiranje.html" %}
+
+{% block title %}
+{{ diskusija.naziv }}
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <h1>{{ diskusija.naziv }}</h1>
+        <h5>{{ diskusija.kategorija }}</h5>
+        <h5>
+            {% if diskusija.autor.volonter %}
+            {{ diskusija.autor.first_name }} {{ diskusija.autor.last_name }}
+            {% elif diskusija.autor.organizacija %}
+            {{ diskusija.autor.naziv }}
+            {% else %}
+            {{ diskusija.autor }}
+            {% endif %}
+
+            - {{ diskusija.datum }}</h5>
+        <p>{{ diskusija.tekst }}</p>
+        <div style=" overflow: auto;">
+            <table class="table">
+                <thead>
+                <th>Korisnik</th>
+                <th>Komentar</th>
+                </thead>
+                <tbody id="tbody">
+                {% for komentar in diskusija.komentar_set.all %}
+                <tr>
+                    <td>
+                        {% if komentar.autor.volonter %}
+                        {{ komentar.autor.first_name }} {{ komentar.autor.last_name }}
+                        {% elif komentar.autor.organizacija %}
+                        {{ komentar.autor.naziv }}
+                        {% else %}
+                        {{ komentar.autor }}
+                        {% endif %}
+                    </td>
+                    <td>{{ komentar.sadrzaj }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <script>
+            var url = "{% url "forum:dodajKomentar" %}";
+        </script>
+        <form method="post" action="{% url 'forum:diskusija' %}">
+        {% csrf_token %}
+        <input type="hidden" id="id" name="id" value="{{ diskusija.id }}"/>
+        {% for field in form %}
+        <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+        <div class="my-3">{{ field }}</div>
+        <div class="text-danger" id="{{ field.auto_id }}_errors">
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+        <button type="button" class="btn btn-primary" onclick="addComment(url);">Додај коментар</button>
+        </form>
+    </div>
+</div>
+{% load static %}
+<script src="{% static 'forum/script.js' %}"></script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
