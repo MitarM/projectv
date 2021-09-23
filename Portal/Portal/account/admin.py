@@ -1,13 +1,18 @@
 from django.contrib import admin
 from .models import Organizacija, Volonter
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.models import User
+# from django.contrib.auth.admin import UserAdmin
 
 # Register your models here.
 
 admin.site.register(Organizacija)
 admin.site.register(Volonter)
 
+# from .models import User
+#
+# class CustomUserAdmin(UserAdmin):
+#     pass
+#
+# admin.site.register(User, CustomUserAdmin)
 
 # class OrganizacijaInline(admin.StackedInline):
 #     model = Organizacija

@@ -30,25 +30,25 @@
         {{ user.organizacija.naziv }}
         {% endif %}
     </a>
-        {% if user.is_authenticated %}
-        <span>
-                <a class="nav-link" aria-current="page" href="{% url 'logout' %}"> Одјави се</a>
-            </span>
-        {% else %}
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% url 'login' %}">Улогуј се</a>
-        </li>
-        <li class="nav-item inline dropdown mr-2">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Региструј
-                се</a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% url 'register' %}">Као волонтер</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item user btn btn-info" href="{% url 'org_register' %}">Као организација</a></li>
-            </ul>
-        </li>
+    {% if user.is_authenticated %}
+    <span>
+            <a class="nav-link" aria-current="page" href="{% url 'logout' %}"> Одјави се</a>
+        </span>
+    {% else %}
+    <li class="nav-item pull-right">
+        <a class="nav-link" aria-current="page" href="{% url 'login' %}">Улогуј се</a>
+    </li>
+    <li class="nav-item inline dropdown mr-2 pull-right">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Региструј
+            се</a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'register' %}">Као волонтер</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item user btn btn-info" href="{% url 'org_register' %}">Као организација</a></li>
+        </ul>
+    </li>
     {% endif %}
 </nav>
 <div class="content">

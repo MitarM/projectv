@@ -17,6 +17,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.mail import EmailMessage
 from django.urls import reverse
+from django.db.models import Q
 
 
 # Create your views here.
@@ -25,28 +26,51 @@ def index_view(request):
 
 
     if request.user.is_authenticated:
-        volonteri = Volonter.objects.all()
-        organizacije = Organizacija.objects.all()
-        diskusije = Diskusija.objects.all()
-        oglasi = Oglas.objects.all()
-        context = {
-            'organizacije': organizacije,
-            'volonteri': volonteri,
-            'diskusije': diskusije,
-            'oglasi': oglasi
-        }
+        if request.user.is_staff:
 
+            diskusije = Diskusija.objects.all()
+            oglasi = Oglas.objects.all()
+            context = {
 
-        return render(request, 'index.html', context)
+                'diskusije': diskusije,
+                'oglasi': oglasi
+            }
+
+            return render(request, 'index.html', context)
+
+        else:
+            if request.user.first_name:
+
+                diskusije = Diskusija.objects.filter(
+                            Q(vidljivost=1) | Q(vidljivost=2) | Q(autor=request.user)
+                )
+                oglasi = Oglas.objects.all()
+                context = {
+
+                    'diskusije': diskusije,
+                    'oglasi': oglasi
+                }
+
+                return render(request, 'index.html', context)
+
+            else:
+
+                diskusije = Diskusija.objects.filter(Q(vidljivost=1) | Q(vidljivost_za_org=1) | Q(autor=request.user))
+                oglasi = Oglas.objects.all()
+                context = {
+
+                    'diskusije': diskusije,
+                    'oglasi': oglasi
+                }
+
+                return render(request, 'index.html', context)
 
     else:
-        volonteri = Volonter.objects.all()
-        organizacije = Organizacija.objects.all()
+
         diskusije = Diskusija.objects.filter(vidljivost=1)
         oglasi = Oglas.objects.filter(vidljivost=1)
         context = {
-            'organizacije': organizacije,
-            'volonteri': volonteri,
+
             'diskusije': diskusije,
             'oglasi': oglasi
         }

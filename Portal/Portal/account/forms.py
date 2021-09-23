@@ -141,12 +141,12 @@ class RegistrationOForm(UserCreationForm):
         pib = self.cleaned_data.get("pib")
         opis = self.cleaned_data.get("opis")
         delatnost = self.cleaned_data.get("opis")
-        sajt = self.cleaned_data.get("delatnost")
+        sajt = self.cleaned_data.get("sajt")
         telefon = self.cleaned_data.get("telefon")
         sediste = self.cleaned_data.get("sediste")
         ulica = self.cleaned_data.get("ulica")
 
-        organizacija = models.Organizacija(user=user, naziv=naziv, pib=pib, opis=opis, sajt=sajt, telefon=telefon, sediste=sediste, ulica=ulica)
+        organizacija = models.Organizacija(user=user, naziv=naziv, pib=pib, opis=opis, delatnost=delatnost, sajt=sajt, telefon=telefon, sediste=sediste, ulica=ulica)
         if commit:
             organizacija.save()
 

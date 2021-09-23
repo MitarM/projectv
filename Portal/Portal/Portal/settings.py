@@ -82,8 +82,12 @@ WSGI_APPLICATION = 'Portal.wsgi.application'
 #TODO Podesi bazu
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': "pov",
+        "USER": "root",
+        "PASSWORD": "12345678",
+        "HOST": "localhost",
+        "PORT": "3306"
     }
 }
 
@@ -106,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# AUTH_USER_MODEL = 'account.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -143,5 +148,5 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ""
+EMAIL_HOST_USER = 'nalogpov@gmail.com'
+EMAIL_HOST_PASSWORD = 'pivoIlIv1n0'

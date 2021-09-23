@@ -52,9 +52,16 @@ Početna stranica
                     {% for diskusija in diskusije %}
                     <tr>
                         <td>
-                            <a href="{% url 'forum:diskusija' %}?id={{ diskusija.id }}">{{ diskusija.kategorija}} {{ diskusija.naziv }} </a>
+                            <p>{{ diskusija.kategorija}}</p>
                         </td>
-                        <td>{{ diskusija.datum }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="{% url 'forum:diskusija' %}?id={{ diskusija.id }}">{{ diskusija.naziv }} </a>
+                        </td>
+                        <td>
+                            {{ diskusija.datum }}
+                        </td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -68,12 +75,7 @@ Početna stranica
                 <div class="col">
                     <h3>Тренутно има {{ oglasi.count }} огласа.</h3>
                 </div>
-                {% if not user.is_authenticated %}
-                <div>
-                    <center><a class="btn-danger user btn" href="{% url 'login' %}">Немате права на постављање огласа бре! <br>Прво се пријавите...</a>
-                    </center>
-                </div>
-                {% else %}
+                {% if user.organizacija %}
                 <div>
                     <center><a class="btn-success user btn" href="{% url 'oglasi:postavljanjeOglasa' %}">Постави оглас</a>
                     </center>
