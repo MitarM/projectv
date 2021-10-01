@@ -1,4 +1,4 @@
-Hi {{ user.username }}
-Please click on the link below to activate your account
+Здраво {{ user.first_name }}{{ user.organizacija.naziv }}
+Кликните на следећи линк како бисте активирали свој налог на порталу за волонтирање
 
 http://{{ domain }}{% url "activation" userId=userId token=token %}

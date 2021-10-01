@@ -29,17 +29,17 @@ def postavljanjeOglasa(request):
 
     form = Forma_postavljanja_oglasa()
     if (request.method == "POST"):
-        form = Forma_postavljanja_oglasa(request.POST);
+        form = Forma_postavljanja_oglasa(request.POST)
     if (form.is_valid()):
-        oglas = form.save();
-        oglas.autor = request.user;
-        oglas.save();
-        return redirect("index");
+        oglas = form.save()
+        oglas.autor = request.user
+        oglas.save()
+        return redirect("index")
 
     context = {
         "form": form
-    };
+    }
 
-    return render(request, "oglasi/kreiranje_oglasa.html", context);
+    return render(request, "oglasi/kreiranje_oglasa.html", context)
 
 

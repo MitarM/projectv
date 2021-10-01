@@ -1,13 +1,13 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 
-from .models import Organizacija, Volonter
 
 from django.contrib.auth import login, logout, authenticate
-from .forms import RegistrationVForm, RegistrationOForm
-from .models import User
+from .forms import RegistrationVForm, RegistrationOForm, DodatniPodaciCreationForm
+from .models import User, Interesovanje
 from django.views.generic.edit import CreateView
 from forum.models import Diskusija
 from oglasi.models import Oglas
@@ -24,29 +24,29 @@ from django.db.models import Q
 
 def index_view(request):
 
-
     if request.user.is_authenticated:
-        if request.user.is_staff:
 
+        if request.user.is_staff:
+            administratori = User.objects.filter(is_staff=True)
             diskusije = Diskusija.objects.all()
             oglasi = Oglas.objects.all()
             context = {
-
+                'administratori': administratori,
                 'diskusije': diskusije,
                 'oglasi': oglasi
             }
-
             return render(request, 'index.html', context)
 
         else:
             if request.user.first_name:
 
+                administratori = User.objects.filter(is_staff=True)
                 diskusije = Diskusija.objects.filter(
                             Q(vidljivost=1) | Q(vidljivost=2) | Q(autor=request.user)
                 )
                 oglasi = Oglas.objects.all()
                 context = {
-
+                    'administratori': administratori,
                     'diskusije': diskusije,
                     'oglasi': oglasi
                 }
@@ -54,11 +54,11 @@ def index_view(request):
                 return render(request, 'index.html', context)
 
             else:
-
+                administratori = User.objects.filter(is_staff=True)
                 diskusije = Diskusija.objects.filter(Q(vidljivost=1) | Q(vidljivost_za_org=1) | Q(autor=request.user))
                 oglasi = Oglas.objects.all()
                 context = {
-
+                    'administratori': administratori,
                     'diskusije': diskusije,
                     'oglasi': oglasi
                 }
@@ -66,11 +66,11 @@ def index_view(request):
                 return render(request, 'index.html', context)
 
     else:
-
+        administratori = User.objects.filter(is_staff=True)
         diskusije = Diskusija.objects.filter(vidljivost=1)
         oglasi = Oglas.objects.filter(vidljivost=1)
         context = {
-
+            'administratori': administratori,
             'diskusije': diskusije,
             'oglasi': oglasi
         }
@@ -106,9 +106,10 @@ class Registration_vview(CreateView):
     form_class = RegistrationVForm
     template_name = 'register.html'
 
+
+
     def get_success_url(self): #Ако је регистација успешна идемо на 'логин' ММ
         return reverse("login")
-
 
 
     # def get_context_data(self, **kwargs):
@@ -136,12 +137,13 @@ class Registration_vview(CreateView):
 
             token = tokenGenerator.make_token(self.object)
 
+
             context = {
                 "user": self.object,
                 "domain": currentSite.domain,
                 "userId": coddedUserId,
-                "token": token
-            };
+                "token": token,
+            }
 
             body = render_to_string("account/email.html", context)
 
@@ -163,14 +165,53 @@ class Registration_oview(CreateView):
     form_class = RegistrationOForm
     template_name = 'org_register.html'
 
-    def get_context_data(self, **kwargs):
-        kwargs['user_type'] = 'organizacija'
-        return super().get_context_data(**kwargs)
+    def get_success_url(self): #Ако је регистација успешна идемо на 'логин' ММ
+        return reverse("login")
 
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return redirect('index')
+    # def get_context_data(self, **kwargs):
+    #     kwargs['user_type'] = 'organizacija'
+    #     return super().get_context_data(**kwargs)
+    #
+    # def form_valid(self, form):
+    #     user = form.save()
+    #     login(self.request, user)
+    #     return redirect('index')
+
+    def post(self, request, *args, **kwargs):
+
+        result = super(Registration_oview, self).post(request, args, kwargs)
+
+        if self.object is not None:
+            self.object.is_active = False
+            self.object.save()
+
+            currentSite = get_current_site(request)
+            userId = self.object.id
+            coddedUserId = urlsafe_base64_encode(force_bytes(userId))
+
+            tokenGenerator = PasswordResetTokenGenerator()
+
+            token = tokenGenerator.make_token(self.object)
+
+
+            context = {
+                "user": self.object,
+                "domain": currentSite.domain,
+                "userId": coddedUserId,
+                "token": token,
+            };
+
+            body = render_to_string("account/email.html", context)
+
+            email = EmailMessage(
+                "activation",
+                body,
+                "admin@email.com",
+                [self.object.email]
+            )
+            email.send()
+
+        return result
 
 
 class ActivationView(View):
@@ -202,3 +243,27 @@ class ActivationView(View):
 
         return redirect("login")
 
+
+# @login_required(login_url="../../login")
+def kreiranjeDodatnihPodataka(request):
+
+    create_form = DodatniPodaciCreationForm()
+    form = create_form
+
+    if request.method == "POST":
+        form = DodatniPodaciCreationForm(request.POST)
+        if form.is_valid():
+            dodatni_podaci = form.save()
+            interesovanja = Interesovanje.objects.get_or_create(name=dodatni_podaci.interesovanja)
+            interesovanja.save()
+            dodatni_podaci.interesovanja = interesovanja
+            dodatni_podaci.volonter = request.user.volonter
+            dodatni_podaci.interesovanja = interesovanja
+            dodatni_podaci.save()
+            return redirect("index")
+
+    context = {
+        "form": form
+    }
+
+    return render(request, "account/kreirajDodatnePodatake.html", context)

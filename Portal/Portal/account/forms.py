@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Mesto, Ulica, Drzava
 
 
 
@@ -99,23 +100,12 @@ class RegistrationOForm(UserCreationForm):
         )
     )
 
-    sediste = forms.CharField(
-        label="Место",
-        widget=forms.TextInput(
-            attrs={
-                "class": "form-control",
-            }
-        )
-    )
 
-    ulica = forms.CharField(
-        label="Улица",
-        widget=forms.TextInput(
-            attrs={
-                "class": "form-control",
-            }
-        )
-    )
+    sediste = forms.ModelChoiceField(queryset=Mesto.objects.all().order_by('naziv'))
+
+    ulica = forms.ModelChoiceField(queryset=Ulica.objects.all().order_by('naziv'))
+
+
 
     class Meta:
         model = User
@@ -161,6 +151,21 @@ class RegistrationOForm(UserCreationForm):
         for fieldname in ['email']:
             self.fields[fieldname].label = 'Имејл'
 
+        self.fields['sediste'].label = "Седиште"
+        self.fields['ulica'].label = "Улица"
+
+        self.fields['sediste'].widget.attrs.update(
+            {
+                'class': 'form-control',
+            }
+        )
+
+        self.fields['ulica'].widget.attrs.update(
+            {
+                'class': 'form-control',
+            }
+        )
+
 
 class RegistrationVForm(UserCreationForm):
 
@@ -190,23 +195,6 @@ class RegistrationVForm(UserCreationForm):
         help_text="",
     )
 
-    # ime = forms.CharField(
-    #     label="Име",
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             "class": "form-control",
-    #         }
-    #     )
-    # )
-    #
-    # prezime = forms.CharField(
-    #     label="Презиме",
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             "class": "form-control",
-    #         }
-    #     )
-    # )
 
     datum_rodjenja = forms.DateField(
         label="Датум рођења",
@@ -246,31 +234,16 @@ class RegistrationVForm(UserCreationForm):
 
     cv = forms.FileField(
         label="Резиме",
-        # widget=forms.FileField(
-        #     attrs={
-        #         "class": "form-control",
-        #     }
-        # )
     )
 
-    #
-    # mesto = forms.CharField(
-    #     label="Место",
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             "class": "form-control",
-    #         }
-    #     )
-    # )
-    #
-    # ulica = forms.CharField(
-    #     label="Улица",
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             "class": "form-control",
-    #         }
-    #     )
-    # )
+
+    mesto = forms.ModelChoiceField(queryset=Mesto.objects.all().order_by('naziv'))
+
+    ulica = forms.ModelChoiceField(queryset=Ulica.objects.all().order_by('naziv'))
+
+    drzavljanstvo = forms.ModelChoiceField(queryset=Drzava.objects.all().order_by('naziv'))
+
+    javni_podaci = forms.BooleanField(required=False)
 
     class Meta:
         model = User
@@ -307,11 +280,15 @@ class RegistrationVForm(UserCreationForm):
         pol = self.cleaned_data.get("pol")
         slika = self.cleaned_data.get("slika")
         cv = self.cleaned_data.get("cv")
+        drzavljanstvo = self.cleaned_data.get('drzavljanstvo')
+        mesto = self.cleaned_data.get("mesto")
+        ulica = self.cleaned_data.get("ulica")
+        javni_podaci = self.cleaned_data.get("javnipodaci")
 
-        # mesto = self.cleaned_data.get("sediste")
-        # ulica = self.cleaned_data.get("ulica")
-
-        volonter = models.Volonter(user=user, datum_rodjenja=datum_rodjenja, telefon=telefon, pol=pol, slika=slika, cv=cv)
+        volonter = models.Volonter(
+            user=user, datum_rodjenja=datum_rodjenja, telefon=telefon, pol=pol, slika=slika,
+            cv=cv, mesto=mesto, ulica=ulica, drzavljanstvo=drzavljanstvo, javni_podaci=javni_podaci
+        )
         if commit:
             volonter.save()
 
@@ -323,6 +300,15 @@ class RegistrationVForm(UserCreationForm):
         for fieldname in ['email']:
             self.fields[fieldname].label = 'Имејл'
 
+        self.fields['mesto'].label = 'Место'
+        self.fields['ulica'].label = 'Улица'
+        self.fields['drzavljanstvo'].label = 'Држављанство'
+        self.fields['javni_podaci'].widget.attrs.update(
+            {
+                'class': 'form-check-input',
+            }
+        )
+        self.fields['javni_podaci'].label = 'Означите уколико желите да Вам подаци буду видљиви свим корисницима'
         self.fields['first_name'].label = 'Име'
         self.fields['last_name'].label = 'Презиме'
         self.fields['pol'].widget.attrs.update(
@@ -342,4 +328,34 @@ class RegistrationVForm(UserCreationForm):
                 'class': 'form-control',
             }
         )
+
+        self.fields['mesto'].widget.attrs.update(
+            {
+                'class': 'form-control',
+            }
+        )
+
+        self.fields['ulica'].widget.attrs.update(
+            {
+                'class': 'form-control',
+            }
+        )
+
+        self.fields['drzavljanstvo'].widget.attrs.update(
+            {
+                'class': 'form-control',
+            }
+        )
+
+
+class DodatniPodaciCreationForm(forms.ModelForm):
+    class Meta:
+        model = models.DodatniPodaci
+        fields = ["interesovanja"]
+        labels = {'interesovanja': 'Интересовање'}
+        widgets = {
+            'interesovanja': forms.TextInput(attrs={"size": 40, "class": "form-control",}),
+        }
+
+
 

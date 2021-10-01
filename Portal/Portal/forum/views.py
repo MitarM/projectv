@@ -30,6 +30,7 @@ def kreiranjeDiskusije(request):
     return render(request, "forum/kreirajDiskusiju.html", context)
 
 
+@login_required(login_url="../../login")
 def dodajKomentar(request):
     id = request.POST.get("id")
     form = KomentarCreateForm(request.POST)
@@ -60,14 +61,7 @@ def dodajKomentar(request):
         return JsonResponse(data, status=400)
 
 
-# def diskusija(request, id):
-#     diskusija = Diskusija.objects.get(id=id)
-#
-#     context = {
-#         'diskusija': diskusija
-#     }
-#
-#     return render(request, 'forum/diskusija.html', context)
+
 
 def diskusija(request):
     if request.method == "GET":
@@ -103,23 +97,3 @@ def diskusija(request):
         print("POST", context)
         return render(request, "forum/diskusija.html", context)
 
-
-
-
-# @login_required(login_url="../../login")
-# def kreiranjeDiskusije(request):
-#     create_form = DiskusijaCreateForm()
-#     form = create_form
-#
-#     if (request.method == "POST"):
-#         form = KategorijaDiskusijeCreateForm(request.POST)
-#         if (form.is_valid()):
-#             kategorija = form.save()
-#             kategorija.save()
-#             return redirect("index")
-#
-#     context = {
-#         "form": form
-#     };
-#
-#     return render(request, "forum/dodajKomentar.html", context)

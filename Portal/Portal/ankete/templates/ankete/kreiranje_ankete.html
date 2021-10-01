@@ -1,0 +1,25 @@
+{% extends "Portal_Za_Volontiranje.html" %}
+{% block title %}
+Kreiranje ankete
+{% endblock %}
+{% block body %}
+{% if user.volonter %}
+<h1>Само организација има право креирања анкета.</h1>
+{% else %}
+    <div class="maindiv jumbotron col-md-6 container border border-info border-3 rounded ">
+        <form method="POST"  action="{% url 'ankete:kreiranjeAnkete' %}">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-2">
+                <label for="{{ field.auto_id }}" class="form-label">{{ field.label }}</label>
+                {{ field }}
+                <div class="text-danger">
+                    {{ field.errors }}
+                </div>
+            </div>
+            {% endfor %}
+            <input class="btn btn-success btn-lg" type="submit" value="Креирајте анкету">
+        </form>
+    </div>
+{% endif %}
+{% endblock %}

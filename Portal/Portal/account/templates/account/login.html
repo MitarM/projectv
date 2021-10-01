@@ -40,8 +40,12 @@
             {% csrf_token %}
             <p><input class="form-control" type="text" name="username" placeholder="Username..."></p>
             <p><input class="form-control" type="password" name="password" placeholder="Password..."></p>
-            <input class="btn btn-success" type="submit" value="Улогујте се">
-            <!--            <p>Do not have an account: <a href='{% url "register" %}'>Register</a></p>-->
+            <center>
+                <input class="btn btn-success" type="submit" value="Улогујте се">
+            </center>
+                <br><br>
+            <p>Немате налог: <a style="text-decoration:none" href='{% url "register" %}'>Региструјте се.</a><br>
+            <p>Заборавили сте лозинку: <a style="text-decoration:none" href='{% url "reset_password" %}'>Подесите нову.</a></p>
         </form>
     </div>
 </div>

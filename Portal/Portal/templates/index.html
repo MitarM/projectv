@@ -7,23 +7,25 @@ Početna stranica
     <div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                        role="tab" aria-controls="home" aria-selected="true">Дискусије
+                <button class="nav-link active" id="diskusije-tab" data-bs-toggle="tab" data-bs-target="#diskusije" type="button"
+                        role="tab" aria-controls="diskusije" aria-selected="true">Дискусије
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                        role="tab" aria-controls="profile" aria-selected="false">Огласи
+                <button class="nav-link" id="oglasi-tab" data-bs-toggle="tab" data-bs-target="#oglasi" type="button"
+                        role="tab" aria-controls="oglasi" aria-selected="false">Огласи
                 </button>
             </li>
+{% if user.is_authenticated %}
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-                        role="tab" aria-controls="contact" aria-selected="false">Новости
+                <button class="nav-link" id="ankete-tab" data-bs-toggle="tab" data-bs-target="#ankete" type="button"
+                        role="tab" aria-controls="ankete" aria-selected="false">Анкете
                 </button>
+{% endif %}
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade show active" id="diskusije" role="tabpanel" aria-labelledby="diskusije-tab">
                 <div class="col">
 
                     <h3>Тренутно има {{ diskusije.count }} дискусија.</h3>
@@ -71,7 +73,7 @@ Početna stranica
                     {% endblock %}
                 </div>
             </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="tab-pane fade" id="oglasi" role="tabpanel" aria-labelledby="oglasi-tab">
                 <div class="col">
                     <h3>Тренутно има {{ oglasi.count }} огласа.</h3>
                 </div>
@@ -100,27 +102,20 @@ Početna stranica
                     </tbody>
                 </table>
             </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-
-            </div>
-        </div>
-    </div>
-    <div class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="tab-pane fade" id="ankete" role="tabpanel" aria-labelledby="ankete-tab">
+                        {% if user.is_authenticated %}
+                        {% if user.volonter %}
+                        {% else %}
+                    <div>
+                        <center><a class="btn-success user btn" href="{% url 'ankete:kreiranjeAnkete' %}">Креирајте анкету</a>
+                        </center>
+                    </div>
+                        {% endif %}
+                        {% endif %}
+                        {% for anketa in ankete %}
+                        <h4>Naziv ankete: {{ anketa.naziv_ankete }}</h4>
+                        {% endfor %}
                 </div>
-                <div class="modal-body">
-                    <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
         </div>
     </div>
 </div>

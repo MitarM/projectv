@@ -10,6 +10,9 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('<int:id>/', views.pitanja, name='pitanja'),
     path("", MyTemplateView.as_view(template_name = "index.html"), name = "index"),
+    path("kreiranjeAnkete", views.kreiranjeAnkete, name='kreiranjeAnkete'),
+    path("kreiranjePitanja", views.kreiranjePitanja, name='kreiranjePitanja')
+
 ]
 
 

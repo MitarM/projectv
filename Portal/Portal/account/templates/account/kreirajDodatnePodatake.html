@@ -5,7 +5,7 @@
 
 <div class="maindiv jumbotron col-md-6 container border border-info border-3 rounded ">
 
-    <form method="POST" enctype="multipart/form-data" action="{% url 'org_register' %}">
+    <form method="POST"  action="{% url 'kreiranjeDodatnihPodataka' %}">
         {% csrf_token %}
         {% for field in form %}
         <div class="mb-2">
@@ -16,13 +16,11 @@
             </div>
         </div>
         {% endfor %}
-        <center>
-            <input class="btn btn-success" type="submit" value="Региструјте се">
-        </center>
-        <center>
-        <p>Већ имате налог: <a style="text-decoration:none" href='{% url "login" %}'>Улогујте се</a></p>
-        </center>
+        <input class="btn btn-success btn-lg" type="submit" value="Додај податке">
     </form>
 
 </div>
+
+
+
 {% endblock %}

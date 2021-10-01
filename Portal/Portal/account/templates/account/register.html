@@ -16,9 +16,14 @@
             </div>
         </div>
         {% endfor %}
-        <input class="btn btn-success btn-lg" type="submit" value="Региструјте се">
-        <p>Већ имате налог: <a href='{% url "login" %}'>Улогујте се</a></p>
+        <center>
+            <input class="btn btn-success" type="submit" value="Региструјте се">
+        </center>
+        <center>
+            <p>Већ имате налог: <a style="text-decoration:none" href='{% url "login" %}'>Улогујте се</a></p>
+        </center>
     </form>
 
 </div>
+
 {% endblock %}

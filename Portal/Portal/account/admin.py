@@ -1,11 +1,20 @@
 from django.contrib import admin
-from .models import Organizacija, Volonter
+from .models import Organizacija, Volonter, Drzava, Mesto, Ulica
 # from django.contrib.auth.admin import UserAdmin
+
+from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
 
+class IEAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    pass
+
 admin.site.register(Organizacija)
 admin.site.register(Volonter)
+admin.site.register(Drzava, IEAdmin)
+admin.site.register(Mesto, IEAdmin)
+admin.site.register(Ulica, IEAdmin)
+
 
 # from .models import User
 #
