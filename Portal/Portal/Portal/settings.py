@@ -153,4 +153,4 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 #TODO dva naredna reda ne smeju popunjeni na GH
 EMAIL_HOST_USER = 'nalogpov@gmail.com'
-EMAIL_HOST_PASSWORD = 'okolisemo01'
+EMAIL_HOST_PASSWORD = 'xxxxxx'
