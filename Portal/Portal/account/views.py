@@ -4,10 +4,11 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 
-
+from django.views.generic.base import TemplateView
 from django.contrib.auth import login, logout, authenticate
 from .forms import RegistrationVForm, RegistrationOForm, DodatniPodaciCreationForm
-from .models import User, Interesovanje
+from .models import User, Interesovanje, Volonter, DodatniPodaci
+from ankete.models import Anketa
 from django.views.generic.edit import CreateView
 from forum.models import Diskusija
 from oglasi.models import Oglas
@@ -30,7 +31,9 @@ def index_view(request):
             administratori = User.objects.filter(is_staff=True)
             diskusije = Diskusija.objects.all()
             oglasi = Oglas.objects.all()
+            ankete = Anketa.objects.all()
             context = {
+                'ankete': ankete,
                 'administratori': administratori,
                 'diskusije': diskusije,
                 'oglasi': oglasi
@@ -45,7 +48,9 @@ def index_view(request):
                             Q(vidljivost=1) | Q(vidljivost=2) | Q(autor=request.user)
                 )
                 oglasi = Oglas.objects.all()
+                ankete = Anketa.objects.all()
                 context = {
+                    'ankete': ankete,
                     'administratori': administratori,
                     'diskusije': diskusije,
                     'oglasi': oglasi
@@ -57,7 +62,10 @@ def index_view(request):
                 administratori = User.objects.filter(is_staff=True)
                 diskusije = Diskusija.objects.filter(Q(vidljivost=1) | Q(vidljivost_za_org=1) | Q(autor=request.user))
                 oglasi = Oglas.objects.all()
+                ankete = Anketa.objects.all()
+
                 context = {
+                    'ankete': ankete,
                     'administratori': administratori,
                     'diskusije': diskusije,
                     'oglasi': oglasi
@@ -267,3 +275,26 @@ def kreiranjeDodatnihPodataka(request):
     }
 
     return render(request, "account/kreirajDodatnePodatake.html", context)
+
+#@login_required(login_url="../../login")
+class Ppregled(TemplateView):
+    template_name = "account/profil.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(Ppregled, self).get_context_data()
+
+        interes = Interesovanje.objects.all()
+        volonter = DodatniPodaci.objects.get(volonter=self.request.user.volonter)
+
+        interesovanja = volonter.interesovanja.all()
+
+
+        # friends = Interesovanje.objects.filter (
+        #     Q(
+        #         Q(= self.request.user.id ) | Q ( recipient_id = self.request.user.id )
+        #     )
+        # ).all()
+        #
+        context["interesovanja"] = interesovanja
+
+        return context;

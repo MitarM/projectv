@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Mesto, Ulica, Drzava
+from .models import Mesto, Ulica, Drzava, Interesovanje
 
 
 
@@ -130,7 +130,7 @@ class RegistrationOForm(UserCreationForm):
         naziv = self.cleaned_data.get("naziv")
         pib = self.cleaned_data.get("pib")
         opis = self.cleaned_data.get("opis")
-        delatnost = self.cleaned_data.get("opis")
+        delatnost = self.cleaned_data.get("delatnost")
         sajt = self.cleaned_data.get("sajt")
         telefon = self.cleaned_data.get("telefon")
         sediste = self.cleaned_data.get("sediste")
@@ -220,7 +220,7 @@ class RegistrationVForm(UserCreationForm):
     POLOVI = (
         (1, 'Мушки'),
         (2, 'Женски'),
-        (3, 'Друго, тј. треће'),
+        (3, 'Не желим да се изјасним.'),
     )
 
     pol = forms.ChoiceField(
@@ -243,7 +243,7 @@ class RegistrationVForm(UserCreationForm):
 
     drzavljanstvo = forms.ModelChoiceField(queryset=Drzava.objects.all().order_by('naziv'))
 
-    javni_podaci = forms.BooleanField(required=False)
+    # javni_podaci = forms.BooleanField(required=False)
 
     class Meta:
         model = User
@@ -283,11 +283,11 @@ class RegistrationVForm(UserCreationForm):
         drzavljanstvo = self.cleaned_data.get('drzavljanstvo')
         mesto = self.cleaned_data.get("mesto")
         ulica = self.cleaned_data.get("ulica")
-        javni_podaci = self.cleaned_data.get("javnipodaci")
+        # javni_podaci = self.cleaned_data.get("javnipodaci")
 
         volonter = models.Volonter(
             user=user, datum_rodjenja=datum_rodjenja, telefon=telefon, pol=pol, slika=slika,
-            cv=cv, mesto=mesto, ulica=ulica, drzavljanstvo=drzavljanstvo, javni_podaci=javni_podaci
+            cv=cv, mesto=mesto, ulica=ulica, drzavljanstvo=drzavljanstvo,# javni_podaci=javni_podaci
         )
         if commit:
             volonter.save()
@@ -303,12 +303,12 @@ class RegistrationVForm(UserCreationForm):
         self.fields['mesto'].label = 'Место'
         self.fields['ulica'].label = 'Улица'
         self.fields['drzavljanstvo'].label = 'Држављанство'
-        self.fields['javni_podaci'].widget.attrs.update(
-            {
-                'class': 'form-check-input',
-            }
-        )
-        self.fields['javni_podaci'].label = 'Означите уколико желите да Вам подаци буду видљиви свим корисницима'
+        # self.fields['javni_podaci'].widget.attrs.update(
+        #     {
+        #         'class': 'form-check-input',
+        #     }
+        # )
+        # self.fields['javni_podaci'].label = 'Означите уколико желите да Вам подаци буду видљиви свим корисницима'
         self.fields['first_name'].label = 'Име'
         self.fields['last_name'].label = 'Презиме'
         self.fields['pol'].widget.attrs.update(
@@ -353,9 +353,9 @@ class DodatniPodaciCreationForm(forms.ModelForm):
         model = models.DodatniPodaci
         fields = ["interesovanja"]
         labels = {'interesovanja': 'Интересовање'}
-        widgets = {
-            'interesovanja': forms.TextInput(attrs={"size": 40, "class": "form-control",}),
-        }
+        # widgets = {
+        #     'interesovanja': forms.ModelChoiceField(queryset=Interesovanje.objects.all().order_by('naziv')) # forms.TextInput(attrs={"size": 40, "class": "form-control",}),
+        # }
 
 
 

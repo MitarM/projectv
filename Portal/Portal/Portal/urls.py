@@ -27,6 +27,5 @@ urlpatterns = [
     path("oglasi/", include(('oglasi.urls', 'oglasi'), namespace="oglasi")),
     path('', include('account.urls')),
     path('o_nama', TemplateView.as_view(template_name = "o_nama.html"), name = "o_nama")
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
               + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

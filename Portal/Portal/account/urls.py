@@ -38,4 +38,5 @@ urlpatterns = [
          name="password_reset_complete"),
 
     path('dodatni_podaci/', views.kreiranjeDodatnihPodataka, name='kreiranjeDodatnihPodataka'),
+    path('profil/', views.Ppregled.as_view(), name="profil"),
 ]

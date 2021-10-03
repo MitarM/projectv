@@ -1,7 +1,7 @@
 body {
 	margin: 0px;
 	font-family: serif;
-	background-color: blanchedalmond;
+	background-color: #ebe2d4;
 }
 
 .header {
@@ -14,7 +14,7 @@ body {
 	
 }
 h1 {
-	font-family: fantasy;
+	font-family: arvo;
 	font-size: 60px;
 	transform:skew(-20deg,0);
 	transition: background-color 2s ease;
@@ -23,30 +23,16 @@ h1 {
 h1:hover{
 	background-color: rgb(175, 6, 6);
 	color: white;
-
 }
 
 .nav{
     background-color: lightblue;
     padding: 15px;
-    font-family: cursive;
-}
-
-nav:hover{
-    background-color: #E6E6FA;
-    transition: background-color 2s ease;
-
-}
-.navbar-brand{
-    text-color:red;
-}
-
-navbar-brand:hover{
-    transform: scale(1.10);
+    font-family: Scope One;
 }
 
 h4 {
-	font-family: cursive;
+	font-family: cormorant;
 }
 
 * {
@@ -69,7 +55,7 @@ p {
 	text-indent: 50px;
 }
 
-img {
+.banner {
 	width: 100%;
 	margin-bottom: 15px;
 	border: 2px solid crimson;
@@ -92,7 +78,7 @@ img:hover{
 	color: white;
 	text-align: center;
 	font-weight: bold;
-	font-family: cursive;
+	font-family: Scope One;
 
 }
 
@@ -113,9 +99,10 @@ img:hover{
 }
 
 .oNama{
-text-align: center;
+text-align: justify;
 font-weight: bolder;
-font-style: italic;
-font-family: Monospace;
+font-style: none;
+font-family: Tisa;
 }
+
 

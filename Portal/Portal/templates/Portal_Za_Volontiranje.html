@@ -26,21 +26,21 @@
     <a class="navbar-brand" href="{% url 'o_nama' %}">О нама</a>
     <a class="navbar-brand" href="{% url 'index' %}">
         {% if user.volonter %}
-        {{ user.first_name }} {{ user.last_name }}
+        <a class="nav-link active navbar-brand" aria-current="page" href="{% url 'profil' %}">{{ user.first_name }} {{ user.last_name }}</a>
         {% elif user.organizacija %}
         {{ user.organizacija.naziv }}
         {% endif %}
     </a>
     {% if user.is_authenticated %}
     <span>
-                <a class="nav-link" aria-current="page" href="{% url 'logout' %}"> Одјавите се</a>
-            </span>
+        <a class="nav-link font navbar-brand" aria-current="page" href="{% url 'logout' %}"> Одјавите се</a>
+    </span>
     {% else %}
     <li class="nav-item">
-        <a class="nav-link" aria-current="page" href="{% url 'login' %}">Улогујте се</a>
+        <a class="nav-link navbar-brand" aria-current="page" href="{% url 'login' %}">Улогујте се</a>
     </li>
     <li class="nav-item inline dropdown mr-2">
-        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Региструјте
+        <a class="nav-link dropdown-toggle navbar-brand" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Региструјте
             се</a>
         <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{% url 'register' %}">Као волонтер</a></li>
@@ -52,6 +52,8 @@
     </li>
     {% endif %}
 </nav>
+
+
 <div class="content">
     <div class="column side">
         <h3>Права и обавезе</h3>
@@ -71,12 +73,14 @@
 
     <div class="column side">
         <h3>Место за Ваш банер:</h3>
-        <a href="https://rs.jooble.org/posao-volonter"><img src="{% static 'Slike/Slika1.jpg' %}" alt=""></a>
-        <a href="https://iss.rs/sr_Latn/iss-posts-and-add-for-volunteers_p1008.html"><img
+        <a href="https://rs.jooble.org/posao-volonter"><img class="banner" src="{% static 'Slike/Slika1.jpg' %}" alt=""></a>
+        <a href="https://iss.rs/sr_Latn/iss-posts-and-add-for-volunteers_p1008.html"><img class="banner"
                 src="{% static 'Slike/Slika2.jpg' %}"></a>
-        <a href="https://educons.edu.rs/poziv-za-volontiranje-na-medjunarodnoj-studentskoj-nedelji-u-beogradu/"><img
+        <a href="https://educons.edu.rs/poziv-za-volontiranje-na-medjunarodnoj-studentskoj-nedelji-u-beogradu/"><img class="banner"
                 src="{% static 'Slike/Slika3.jpg' %}"></a>
     </div>
+    {% block adminlist %}
+    {% endblock %}
 </div>
 <h3>
     <center>Пратите нас на нашим друштвеним мрежама:</center>
@@ -92,32 +96,7 @@
 </h4>
 
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Контактирај администратора
-</button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Листа администратора</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                {% for admin in administratori %}
-                <p>
-                    {{ admin.username }}: <a href="{{ admin.email }}">{{ admin.email }}</a>
-                </p>
-                {% endfor %}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Затвори</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <div class="footer">© 2021 П_З_В. Сва права су задржана.</div>

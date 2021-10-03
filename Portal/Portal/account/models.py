@@ -83,5 +83,3 @@ class Volonter(models.Model):
 class DodatniPodaci(models.Model):
     volonter = models.OneToOneField(Volonter, null=True, on_delete=models.CASCADE)
     interesovanja = models.ManyToManyField(Interesovanje)
-
-
