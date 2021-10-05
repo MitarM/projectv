@@ -4,7 +4,6 @@ from django.template.loader import render_to_string
 
 from .forms import DiskusijaCreateForm, KomentarCreateForm
 from .models import Diskusija
-# from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 
@@ -37,7 +36,7 @@ def dodajKomentar(request):
 
     diskusija = Diskusija.objects.get(id=id)
 
-    if (form.is_valid()):
+    if form.is_valid():
         komentar = form.save(commit=False)
         komentar.diskusija = diskusija
         komentar.autor = request.user
@@ -56,11 +55,8 @@ def dodajKomentar(request):
         for field in form:
             key = field.auto_id + '_errors'
             data[key] = str(field.errors)
-        # data[key] = render_to_string('thread/errors.html', {'errors': field.errors}, request)
 
         return JsonResponse(data, status=400)
-
-
 
 
 def diskusija(request):
@@ -83,7 +79,7 @@ def diskusija(request):
 
         diskusija = Diskusija.objects.get(id=id)
 
-        if (form.is_valid()):
+        if form.is_valid():
             komentar = form.save(commit=False)
             komentar.diskusija = diskusija
             komentar.autor = request.user
@@ -96,4 +92,3 @@ def diskusija(request):
         }
         print("POST", context)
         return render(request, "forum/diskusija.html", context)
-

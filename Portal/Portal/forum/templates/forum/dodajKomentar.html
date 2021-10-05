@@ -1,14 +1,14 @@
 {% for komentar in komentari %}
 <tr>
     <td>
-        {% if user.volonter %}
+        {% if komentar.autor.volonter %}
         {{ komentar.autor.first_name }} {{ komentar.autor.last_name }}
-        {% elif user.organizacija %}
-        {{ komentar.autor.naziv }}
-        {% else %}
+        {% elif komentar.autor.organizacija %}
         {{ komentar.autor.username }}
+        {% else %}
+        {{ komentar.autor }}
         {% endif %}
-         -
+        -
         {{ komentar.datum }}
     </td>
     <td>{{ komentar.sadrzaj }}</td>

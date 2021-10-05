@@ -21,11 +21,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('ankete/', include(('ankete.urls','ankete'), namespace='ankete')),
+    path('ankete/', include(('ankete.urls', 'ankete'), namespace='ankete')),
     path('forum/', include(('forum.urls', 'forum'), namespace='forum')),
-    # path("", PortalTemplateView.as_view(template_name = "index.html"), name = "index"), #Креирана је замена у акаунту
     path("oglasi/", include(('oglasi.urls', 'oglasi'), namespace="oglasi")),
     path('', include('account.urls')),
-    path('o_nama', TemplateView.as_view(template_name = "o_nama.html"), name = "o_nama")
+    path('o_nama', TemplateView.as_view(template_name="o_nama.html"), name="o_nama")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
               + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

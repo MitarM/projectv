@@ -18,7 +18,6 @@ class Diskusija(models.Model):
     V = (
         (1, 'Сви'),
         (2, 'Само логовани корисници'),
-        # (3, 'Волонтери истих интересовања')
     )
     vidljivost = models.PositiveSmallIntegerField(default=1, choices=V)
     VZO = (
@@ -28,8 +27,7 @@ class Diskusija(models.Model):
     vidljivost_za_org = models.PositiveSmallIntegerField(default=1, choices=VZO)
     kategorija = models.ForeignKey(Kategorija_diskusije, on_delete=models.CASCADE)
     autor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    # def __str__(self):
-    #     return self.tekst + ' - ' # + self.datum
+
 
 class Komentar(models.Model):
     sadrzaj = models.TextField()

@@ -1,10 +1,11 @@
 from .models import Stavka, Anketa
 from django import forms
 
+
 class AnketeCreateForm(forms.ModelForm):
     class Meta:
         model = Anketa
-        fields = [ "vidljivost_ankete", "naziv_ankete", 'pitanje',]
+        fields = ["vidljivost_ankete", "naziv_ankete", 'pitanje']
 
     def __init__(self, *args, **kwargs):
         super(AnketeCreateForm, self).__init__(*args, **kwargs)
@@ -31,7 +32,6 @@ class AnketeCreateForm(forms.ModelForm):
         )
 
 
-
 class Glasovi(forms.ModelForm):
     class Meta:
         model = Stavka
@@ -46,8 +46,3 @@ class Glasovi(forms.ModelForm):
                 'class': 'form-control',
             }
         )
-
-
-
-
-

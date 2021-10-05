@@ -4,33 +4,9 @@
 {% block body %}
 
 
-<!--<div class="row">-->
-<!--    <div class="col-sm-3 mx-auto">-->
-<!--        <h1>Login form</h1>-->
-<!--        {% if form.errors %}-->
-<!--        <div class="text-danger">-->
-<!--             <div class="danger">Молимо Вас, упишите важеће креденцијале, обратите пажњу на велика и мала слова.</div>-->
-<!--        </div>-->
-<!--        {% endif %}-->
-<!--        <form method="post" action="{% url 'login' %}">-->
-<!--        {% csrf_token %}-->
-<!--        <input type="hidden" name="next" value="{{ next }}" />-->
-<!--        <div class="mb-2">-->
-<!--            <label for="username" class="form-label">{{ form.username.label }}</label>-->
-<!--            <input id="username" type="text" name="username" class="form-control" />-->
-<!--        </div>-->
-<!--        <div class="mb-2">-->
-<!--            <label for="password" class="form-label">{{ form.password.label }}</label>-->
-<!--            <input id="password" type="password" name="password" class="form-control" />-->
-<!--        </div>-->
-<!--        <input type="submit" class="btn btn-primary" value="Login" />-->
-<!--        </form>-->
-<!--    </div>-->
-<!--</div>-->
-
 <div class="jumbotron border col-md-6 border-3 border-info p-3 rounded mx-auto">
     <div class="col-sm mx-auto">
-        <center><h3>Login form</h3></center>
+        <center><h3>Пријава</h3></center>
         {% if form.errors %}
         <div class="text-danger">
             <div class="danger">Молимо Вас, упишите важеће креденцијале, обратите пажњу на велика и мала слова.</div>
@@ -38,15 +14,27 @@
         {% endif %}
         <form method="POST" action="">
             {% csrf_token %}
-            <p><input class="form-control" type="text" name="username" placeholder="Username..."></p>
-            <p><input class="form-control" type="password" name="password" placeholder="Password..."></p>
+            <p><input class="form-control" type="text" name="username" placeholder="Упишите корисничко име или имејл адресу..."></p>
+            <p><input class="form-control" type="password" name="password" placeholder="Лозинка..."></p>
             <center>
                 <input class="btn btn-success" type="submit" value="Улогујте се">
             </center>
-                <br><br>
+            <br><br>
 
-            <p><center>Немате налог? <br> <a style="text-decoration:none" href='{% url "register" %}'>Региструјте се.</a></center></p>
-            <p><center>Заборавили сте лозинку? <br> <a style="text-decoration:none" href='{% url "reset_password" %}'>Подесите нову.</a></center></p>
+            <div>
+                <center>Немате налог? <br>
+                    <a style="text-decoration:none" href='{% url "register" %}'>
+                        Региструјте се.
+                    </a>
+                </center>
+            </div>
+            <div>
+                <center>Заборавили сте лозинку? <br>
+                    <a style="text-decoration:none" href='{% url "reset_password" %}'>
+                        Подесите нову.
+                    </a>
+                </center>
+            </div>
 
         </form>
     </div>

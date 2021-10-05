@@ -4,20 +4,10 @@ from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Mesto, Ulica, Drzava, Interesovanje
-
+from .models import Mesto, Ulica, Drzava
 
 
 class RegistrationOForm(UserCreationForm):
-
-    # username = forms.CharField(
-    #     label="Корисничко име",
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             "class": "form-control",
-    #         }
-    #     )
-    # )
 
     password1 = forms.CharField(
         label="Лозинка",
@@ -100,16 +90,13 @@ class RegistrationOForm(UserCreationForm):
         )
     )
 
-
     sediste = forms.ModelChoiceField(queryset=Mesto.objects.all().order_by('naziv'))
 
     ulica = forms.ModelChoiceField(queryset=Ulica.objects.all().order_by('naziv'))
 
-
-
     class Meta:
         model = User
-        fields = [ "username", "email"]
+        fields = ["username", "email"]
         widgets = {
             "username": forms.TextInput(
                 attrs={
@@ -136,7 +123,10 @@ class RegistrationOForm(UserCreationForm):
         sediste = self.cleaned_data.get("sediste")
         ulica = self.cleaned_data.get("ulica")
 
-        organizacija = models.Organizacija(user=user, naziv=naziv, pib=pib, opis=opis, delatnost=delatnost, sajt=sajt, telefon=telefon, sediste=sediste, ulica=ulica)
+        organizacija = models.Organizacija(
+            user=user, naziv=naziv, pib=pib, opis=opis, delatnost=delatnost, sajt=sajt, telefon=telefon,
+            sediste=sediste, ulica=ulica
+        )
         if commit:
             organizacija.save()
 
@@ -195,7 +185,6 @@ class RegistrationVForm(UserCreationForm):
         help_text="",
     )
 
-
     datum_rodjenja = forms.DateField(
         label="Датум рођења",
         widget=forms.DateInput(
@@ -205,8 +194,6 @@ class RegistrationVForm(UserCreationForm):
             },
         )
     )
-
-
 
     telefon = forms.CharField(
         label="Телефон",
@@ -235,7 +222,6 @@ class RegistrationVForm(UserCreationForm):
     cv = forms.FileField(
         label="Резиме",
     )
-
 
     mesto = forms.ModelChoiceField(queryset=Mesto.objects.all().order_by('naziv'))
 
@@ -275,7 +261,7 @@ class RegistrationVForm(UserCreationForm):
         user = super(RegistrationVForm, self).save(commit=False)
         user.username = user.email
         user.save()
-        datum_rodjenja= self.cleaned_data.get("datum_rodjenja")
+        datum_rodjenja = self.cleaned_data.get("datum_rodjenja")
         telefon = self.cleaned_data.get("telefon")
         pol = self.cleaned_data.get("pol")
         slika = self.cleaned_data.get("slika")
@@ -287,7 +273,7 @@ class RegistrationVForm(UserCreationForm):
 
         volonter = models.Volonter(
             user=user, datum_rodjenja=datum_rodjenja, telefon=telefon, pol=pol, slika=slika,
-            cv=cv, mesto=mesto, ulica=ulica, drzavljanstvo=drzavljanstvo,# javni_podaci=javni_podaci
+            cv=cv, mesto=mesto, ulica=ulica, drzavljanstvo=drzavljanstvo
         )
         if commit:
             volonter.save()
@@ -353,6 +339,3 @@ class DodatniPodaciCreationForm(forms.ModelForm):
         model = models.DodatniPodaci
         fields = ["interesovanja"]
         labels = {'interesovanja': 'Интересовање'}
-
-
-

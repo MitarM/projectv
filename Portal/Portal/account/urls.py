@@ -6,18 +6,13 @@ from django.contrib.auth import views as av
 
 urlpatterns = [
     path('', views.index_view, name='index'),
-    # path('login/', views.loginUser, name='login'),
     path("logout/", views.logoutUser, name='logout'),
     path("login/", LoginView.as_view(template_name="account/login.html"), name="login"),
     path("register/", views.Registration_vview.as_view(template_name="account/register.html"), name="register"),
     path("org_register/", views.Registration_oview.as_view(template_name="account/org_register.html"),
          name="org_register"),
 
-    path("activate/<userId>/<token>", views.ActivationView.as_view(),name="activation"),
-
-    # path("reset_password/",
-    #      av.PasswordResetView.as_view(template_name="account/password_reset.html"),
-    #      name="reset_password"),
+    path("activate/<userId>/<token>", views.ActivationView.as_view(), name="activation"),
 
     path('password_reset/',
          av.PasswordResetView.as_view(
@@ -38,5 +33,5 @@ urlpatterns = [
          name="password_reset_complete"),
 
     path('dodatni_podaci/', views.kreiranjeDodatnihPodataka, name='kreiranjeDodatnihPodataka'),
-    path('profil/', views.Ppregled.as_view(), name="profil"),
+    path('profil/', views.pregled.as_view(), name="profil"),
 ]

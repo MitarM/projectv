@@ -5,5 +5,4 @@ urlpatterns = [
     path('diskusija/', views.diskusija, name='diskusija'),
     path('kreiranje/', views.kreiranjeDiskusije, name='kreiranjeDiskusije'),
     path('komentar/', views.dodajKomentar, name='dodajKomentar'),
-
 ]

@@ -7,7 +7,7 @@ from django.utils.encoding import force_bytes
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login, logout, authenticate
 from .forms import RegistrationVForm, RegistrationOForm, DodatniPodaciCreationForm
-from .models import User, Interesovanje, Volonter, DodatniPodaci
+from .models import User, DodatniPodaci
 from ankete.models import Anketa
 from django.views.generic.edit import CreateView
 from forum.models import Diskusija
@@ -24,7 +24,6 @@ from django.db.models import Q
 # Create your views here.
 
 def index_view(request):
-
     if request.user.is_authenticated:
 
         if request.user.is_staff:
@@ -109,24 +108,15 @@ def loginUser(request):
         return render(request, 'account/login.html')
 
 
-
-
 class Registration_vview(CreateView):
-
-
     model = User
     form_class = RegistrationVForm
     template_name = 'register.html'
 
-
-
-    def get_success_url(self): #Ако је регистација успешна идемо на 'логин' ММ
+    def get_success_url(self):
         return reverse("login")
 
-
-
     def post(self, request, *args, **kwargs):
-
         result = super(Registration_vview, self).post(request, args, kwargs)
 
         if self.object is not None:
@@ -140,7 +130,6 @@ class Registration_vview(CreateView):
             tokenGenerator = PasswordResetTokenGenerator()
 
             token = tokenGenerator.make_token(self.object)
-
 
             context = {
                 "user": self.object,
@@ -163,18 +152,14 @@ class Registration_vview(CreateView):
 
 
 class Registration_oview(CreateView):
-
-
     model = User
     form_class = RegistrationOForm
     template_name = 'org_register.html'
 
-    def get_success_url(self): #Ако је регистација успешна идемо на 'логин' ММ
+    def get_success_url(self):
         return reverse("login")
 
-
     def post(self, request, *args, **kwargs):
-
         result = super(Registration_oview, self).post(request, args, kwargs)
 
         if self.object is not None:
@@ -189,18 +174,17 @@ class Registration_oview(CreateView):
 
             token = tokenGenerator.make_token(self.object)
 
-
             context = {
                 "user": self.object,
                 "domain": currentSite.domain,
                 "userId": coddedUserId,
                 "token": token,
-            };
+            }
 
             body = render_to_string("account/email.html", context)
 
             email = EmailMessage(
-                "activation",
+                "Активација налога - Портал за волонтирање",
                 body,
                 "admin@email.com",
                 [self.object.email]
@@ -218,9 +202,9 @@ class ActivationView(View):
             id = urlsafe_base64_decode(userId).decode()
             user = User.objects.get(id=id)
         except Exception as error:
-            pass
+            print(error)
 
-        if (user is None):
+        if user is None:
             context = {
                 "error": "Invalid id."
             }
@@ -231,7 +215,7 @@ class ActivationView(View):
         if not tokenGenerator.check_token(user, token):
             context = {
                 "error": "Invalid token."
-            };
+            }
             return render(request, "error.html", context)
 
         user.is_active = True
@@ -240,48 +224,21 @@ class ActivationView(View):
         return redirect("login")
 
 
-# @login_required(login_url="../../login")
-# def kreiranjeDodatnihPodataka(request):
-    #
-    # create_form = DodatniPodaciCreationForm()
-    # form = create_form
-    # interesovanje = Interesovanje
-    #
-    # if request.method == "POST":
-    #     form = DodatniPodaciCreationForm(request.POST)
-    #     if form.is_valid():
-    #         dodatni_podaci = form.save()
-    #         interesovanja = Interesovanje.objects.get_or_create(name=dodatni_podaci.interesovanja)
-    #         interesovanja.save()
-    #         dodatni_podaci.interesovanja = interesovanja
-    #         dodatni_podaci.volonter = request.user.volonter
-    #         dodatni_podaci.interesovanja = interesovanja
-    #         dodatni_podaci.save()
-    #         return redirect("index")
-    #
-    # context = {
-    #     "form": form
-    # }
-    #
-    # return render(request, "account/kreirajDodatnePodatake.html", context)
-
-#@login_required(login_url="../../login")
-class Ppregled(TemplateView):
+class pregled(TemplateView):
     template_name = "account/profil.html"
 
     def get_context_data(self, **kwargs):
-        context = super(Ppregled, self).get_context_data()
+        context = super(pregled, self).get_context_data()
 
         dodatni_podaci = DodatniPodaci.objects.filter(volonter=self.request.user.volonter)
 
         if not dodatni_podaci:
-
             dugme = True
             interesovanja = ['Немате одабрана интересовања']
             context["interesovanja"] = interesovanja
             context['dugme'] = dugme
 
-            return context;
+            return context
 
         volonter = DodatniPodaci.objects.get(volonter=self.request.user.volonter)
 
@@ -291,13 +248,14 @@ class Ppregled(TemplateView):
 
         return context
 
+
 @login_required(login_url="../../login")
 def kreiranjeDodatnihPodataka(request):
     form = DodatniPodaciCreationForm()
     id = request.user.volonter
-    if (request.method == "POST"):
+    if request.method == "POST":
         form = DodatniPodaciCreationForm(request.POST)
-    if (form.is_valid()):
+    if form.is_valid():
         dodatni_podatak = form.save()
         dodatni_podatak.volonter = id
         dodatni_podatak.save()
