@@ -45,7 +45,11 @@ def index_view(request):
 
                 administratori = User.objects.filter(is_staff=True)
                 diskusije = Diskusija.objects.filter(
-                            Q(vidljivost=1) | Q(vidljivost=2) | Q(autor=request.user)
+                    Q(vidljivost=1)
+                    |
+                    Q(vidljivost=2)
+                    |
+                    Q(autor=request.user)
                 )
                 oglasi = Oglas.objects.all()
                 ankete = Anketa.objects.all()
@@ -120,14 +124,6 @@ class Registration_vview(CreateView):
         return reverse("login")
 
 
-    # def get_context_data(self, **kwargs):
-    #     kwargs['user_type'] = 'volonter'
-    #     return super().get_context_data(**kwargs)
-    #
-    # def form_valid(self, form):
-    #     user = form.save()
-    #     login(self.request, user)
-    #     return redirect('login')
 
     def post(self, request, *args, **kwargs):
 
@@ -156,7 +152,7 @@ class Registration_vview(CreateView):
             body = render_to_string("account/email.html", context)
 
             email = EmailMessage(
-                "activation",
+                "Активација налога - Портал за волонтирање",
                 body,
                 "admin@email.com",
                 [self.object.email]
@@ -176,14 +172,6 @@ class Registration_oview(CreateView):
     def get_success_url(self): #Ако је регистација успешна идемо на 'логин' ММ
         return reverse("login")
 
-    # def get_context_data(self, **kwargs):
-    #     kwargs['user_type'] = 'organizacija'
-    #     return super().get_context_data(**kwargs)
-    #
-    # def form_valid(self, form):
-    #     user = form.save()
-    #     login(self.request, user)
-    #     return redirect('index')
 
     def post(self, request, *args, **kwargs):
 
@@ -253,28 +241,29 @@ class ActivationView(View):
 
 
 # @login_required(login_url="../../login")
-def kreiranjeDodatnihPodataka(request):
-
-    create_form = DodatniPodaciCreationForm()
-    form = create_form
-
-    if request.method == "POST":
-        form = DodatniPodaciCreationForm(request.POST)
-        if form.is_valid():
-            dodatni_podaci = form.save()
-            interesovanja = Interesovanje.objects.get_or_create(name=dodatni_podaci.interesovanja)
-            interesovanja.save()
-            dodatni_podaci.interesovanja = interesovanja
-            dodatni_podaci.volonter = request.user.volonter
-            dodatni_podaci.interesovanja = interesovanja
-            dodatni_podaci.save()
-            return redirect("index")
-
-    context = {
-        "form": form
-    }
-
-    return render(request, "account/kreirajDodatnePodatake.html", context)
+# def kreiranjeDodatnihPodataka(request):
+    #
+    # create_form = DodatniPodaciCreationForm()
+    # form = create_form
+    # interesovanje = Interesovanje
+    #
+    # if request.method == "POST":
+    #     form = DodatniPodaciCreationForm(request.POST)
+    #     if form.is_valid():
+    #         dodatni_podaci = form.save()
+    #         interesovanja = Interesovanje.objects.get_or_create(name=dodatni_podaci.interesovanja)
+    #         interesovanja.save()
+    #         dodatni_podaci.interesovanja = interesovanja
+    #         dodatni_podaci.volonter = request.user.volonter
+    #         dodatni_podaci.interesovanja = interesovanja
+    #         dodatni_podaci.save()
+    #         return redirect("index")
+    #
+    # context = {
+    #     "form": form
+    # }
+    #
+    # return render(request, "account/kreirajDodatnePodatake.html", context)
 
 #@login_required(login_url="../../login")
 class Ppregled(TemplateView):
@@ -283,18 +272,39 @@ class Ppregled(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(Ppregled, self).get_context_data()
 
-        interes = Interesovanje.objects.all()
+        dodatni_podaci = DodatniPodaci.objects.filter(volonter=self.request.user.volonter)
+
+        if not dodatni_podaci:
+
+            dugme = True
+            interesovanja = ['Немате одабрана интересовања']
+            context["interesovanja"] = interesovanja
+            context['dugme'] = dugme
+
+            return context;
+
         volonter = DodatniPodaci.objects.get(volonter=self.request.user.volonter)
 
         interesovanja = volonter.interesovanja.all()
 
-
-        # friends = Interesovanje.objects.filter (
-        #     Q(
-        #         Q(= self.request.user.id ) | Q ( recipient_id = self.request.user.id )
-        #     )
-        # ).all()
-        #
         context["interesovanja"] = interesovanja
 
-        return context;
+        return context
+
+@login_required(login_url="../../login")
+def kreiranjeDodatnihPodataka(request):
+    form = DodatniPodaciCreationForm()
+    id = request.user.volonter
+    if (request.method == "POST"):
+        form = DodatniPodaciCreationForm(request.POST)
+    if (form.is_valid()):
+        dodatni_podatak = form.save()
+        dodatni_podatak.volonter = id
+        dodatni_podatak.save()
+        return redirect("profil")
+
+    context = {
+        "form": form
+    }
+
+    return render(request, "account/kreirajDodatnePodatake.html", context)

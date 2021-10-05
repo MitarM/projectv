@@ -78,9 +78,12 @@
                 src="{% static 'Slike/Slika2.jpg' %}"></a>
         <a href="https://educons.edu.rs/poziv-za-volontiranje-na-medjunarodnoj-studentskoj-nedelji-u-beogradu/"><img class="banner"
                 src="{% static 'Slike/Slika3.jpg' %}"></a>
+        <div>
+        {% block adminlist %}
+        {% endblock %}
+        </div>
     </div>
-    {% block adminlist %}
-    {% endblock %}
+
 </div>
 <h3>
     <center>Пратите нас на нашим друштвеним мрежама:</center>
@@ -94,8 +97,6 @@
             <img id="insta" src="{% static 'Slike/Insta.png' %}" alt=""></a>
     </center>
 </h4>
-
-
 
 
 

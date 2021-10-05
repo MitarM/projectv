@@ -55,9 +55,19 @@
                     <b>Интересовања: </b>
                 </div>
                 <div class="col-8">
+
+                    {% if dugme %}
+                        <center>
+                            <a class="btn-success user btn m-2" href="{% url 'kreiranjeDodatnihPodataka' %}">
+                                Уреди интересовања
+                            </a>
+                        </center>
+                    {% else %}
                     {% for interesovanje in interesovanja %}
-                    {{ interesovanje }},
+                    {{ interesovanje }}<br>
                     {% endfor %}
+                    {% endif %}
+
                 </div>
             </div>
         </div>

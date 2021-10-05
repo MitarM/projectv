@@ -5,7 +5,7 @@
 
 <div class="maindiv jumbotron col-md-6 container border border-info border-3 rounded ">
 
-    <form method="POST"  action="{% url 'forum:kreiranjeDiskusije' %}">
+    <form class="p-2" method="POST"  action="{% url 'forum:kreiranjeDiskusije' %}">
         {% csrf_token %}
         {% for field in form %}
         <div class="mb-2">
@@ -16,7 +16,9 @@
             </div>
         </div>
         {% endfor %}
-        <input class="btn btn-success btn-lg" type="submit" value="Креирај дискусију">
+        <center>
+            <input class="btn btn-success" type="submit" value="Креирај дискусију">
+        </center>
     </form>
 
 </div>

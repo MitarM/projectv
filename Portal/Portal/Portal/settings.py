@@ -151,6 +151,6 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-#TODO dva naredna reda ne smeju popunjeni na GH
+# Последња два реда не би ваљало на ГХ
 EMAIL_HOST_USER = 'nalogpov@gmail.com'
-EMAIL_HOST_PASSWORD = 'xxxxxx'
+EMAIL_HOST_PASSWORD = 'xxxxx'

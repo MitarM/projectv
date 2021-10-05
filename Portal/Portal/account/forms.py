@@ -353,9 +353,6 @@ class DodatniPodaciCreationForm(forms.ModelForm):
         model = models.DodatniPodaci
         fields = ["interesovanja"]
         labels = {'interesovanja': 'Интересовање'}
-        # widgets = {
-        #     'interesovanja': forms.ModelChoiceField(queryset=Interesovanje.objects.all().order_by('naziv')) # forms.TextInput(attrs={"size": 40, "class": "form-control",}),
-        # }
 
 
 

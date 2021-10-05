@@ -79,7 +79,6 @@ class Volonter(models.Model):
     def __str__(self):
         return self.user.first_name + ' ' + self.user.last_name
 
-
 class DodatniPodaci(models.Model):
     volonter = models.OneToOneField(Volonter, null=True, on_delete=models.CASCADE)
     interesovanja = models.ManyToManyField(Interesovanje)

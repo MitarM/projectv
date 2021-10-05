@@ -17,8 +17,8 @@ class Diskusija(models.Model):
     datum = models.DateTimeField(auto_now_add=True)
     V = (
         (1, 'Сви'),
-        (2, 'Волонтери'),
-        (3, 'Волонтери истих интересовања')
+        (2, 'Само логовани корисници'),
+        # (3, 'Волонтери истих интересовања')
     )
     vidljivost = models.PositiveSmallIntegerField(default=1, choices=V)
     VZO = (

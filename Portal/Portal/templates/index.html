@@ -33,20 +33,15 @@ Početna stranica
 
                     <h3>Тренутно има {{ diskusije.count }} дискусија.</h3>
                 </div>
-
-                {% if not user.is_authenticated %}
+                {%  if user.is_authenticated %}
                 <div>
-                    <center><a class="btn-danger user btn" href="{% url 'login' %}">Пријавите се да бисте учествовали у
-                        дискусијама</a>
+                    <center>
+                        <a class="btn-success user btn m-2" href="{% url 'forum:kreiranjeDiskusije' %}">
+                            Започни нову дискусију
+                        </a>
                     </center>
                 </div>
-                {% else %}
-                <div>
-                    <center><a class="btn-success user btn m-2" href="{% url 'forum:kreiranjeDiskusije' %}">Започни нову
-                        дискусију</a>
-                    </center>
-                </div>
-
+                {% endif %}
                 <table class="table table-striped">
                     <thead class="bg-secondary">
                     <tr>
@@ -74,7 +69,6 @@ Početna stranica
                     </tbody>
 
                 </table>
-                {% endif %}
 
 
                 <div>
@@ -157,9 +151,11 @@ Početna stranica
 {% block adminlist %}
 <div>
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Контактирај администратора
-    </button>
+    <center>
+        <button type="button" class="btn btn-primary pull-right" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Контактирај администратора
+        </button>
+    </center>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

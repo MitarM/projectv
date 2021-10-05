@@ -50,6 +50,8 @@
                         {% else %}
                         {{ komentar.autor }}
                         {% endif %}
+                        -
+                        {{ komentar.datum }}
                     </td>
                     <td>{{ komentar.sadrzaj }}</td>
                 </tr>
@@ -59,6 +61,7 @@
         </div>
     </div>
 </div>
+{%  if user.is_authenticated %}
 <div class="row">
     <div class="col">
         <script>
@@ -81,6 +84,7 @@
 </div>
 {% load static %}
 <script src="{% static 'forum/script.js' %}"></script>
+{% endif %}
 {% endblock %}
 
 

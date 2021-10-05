@@ -68,7 +68,7 @@ def anketa(request):
         return render(request, 'ankete/anketa.html', context)
 
     elif request.method == "POST":
-        id = request.POST.get("id")
+        id = request.POST.get('id')
         odgovor = Glasovi(request.POST)
         anketa = Anketa.objects.get(id=id)
         odgovori = Stavka.objects.filter(pitanje=anketa)
