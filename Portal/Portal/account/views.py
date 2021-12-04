@@ -21,7 +21,6 @@ from django.urls import reverse
 from django.db.models import Q
 
 
-# Create your views here.
 
 def index_view(request):
     if request.user.is_authenticated:

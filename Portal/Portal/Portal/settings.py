@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "pov",
         "USER": "root",
-        "PASSWORD": "12345678",
+        "PASSWORD": "AbeOddworld08",
         "HOST": "localhost",
         "PORT": "3306"
     }
@@ -111,10 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# AUTH_USER_MODEL = 'account.User'
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -148,4 +144,4 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'nalogpov@gmail.com'
-EMAIL_HOST_PASSWORD = 'jos0se0drzi'
+EMAIL_HOST_PASSWORD = 'odbrana0rada'

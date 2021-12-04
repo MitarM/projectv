@@ -112,8 +112,6 @@ class RegistrationOForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super(RegistrationOForm, self).save(commit)
-        # user.is_staff = True
-        # user.save()
         naziv = self.cleaned_data.get("naziv")
         pib = self.cleaned_data.get("pib")
         opis = self.cleaned_data.get("opis")
@@ -229,17 +227,11 @@ class RegistrationVForm(UserCreationForm):
 
     drzavljanstvo = forms.ModelChoiceField(queryset=Drzava.objects.all().order_by('naziv'))
 
-    # javni_podaci = forms.BooleanField(required=False)
 
     class Meta:
         model = User
         fields = ["email", "first_name", "last_name"]
         widgets = {
-            # "username": forms.EmailInput(
-            #     attrs={
-            #         "class": "form-control"
-            #     }
-            # ),
             "email": forms.EmailInput(
                 attrs={
                     "class": "form-control"
@@ -269,7 +261,6 @@ class RegistrationVForm(UserCreationForm):
         drzavljanstvo = self.cleaned_data.get('drzavljanstvo')
         mesto = self.cleaned_data.get("mesto")
         ulica = self.cleaned_data.get("ulica")
-        # javni_podaci = self.cleaned_data.get("javnipodaci")
 
         volonter = models.Volonter(
             user=user, datum_rodjenja=datum_rodjenja, telefon=telefon, pol=pol, slika=slika,
@@ -289,12 +280,6 @@ class RegistrationVForm(UserCreationForm):
         self.fields['mesto'].label = 'Место'
         self.fields['ulica'].label = 'Улица'
         self.fields['drzavljanstvo'].label = 'Држављанство'
-        # self.fields['javni_podaci'].widget.attrs.update(
-        #     {
-        #         'class': 'form-check-input',
-        #     }
-        # )
-        # self.fields['javni_podaci'].label = 'Означите уколико желите да Вам подаци буду видљиви свим корисницима'
         self.fields['first_name'].label = 'Име'
         self.fields['last_name'].label = 'Презиме'
         self.fields['pol'].widget.attrs.update(
